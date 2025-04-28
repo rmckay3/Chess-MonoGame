@@ -10,6 +10,8 @@ namespace Sprites
 {
     public class King : PieceBase
     {
+        private bool _castle = true;
+        public bool Castle { get { return _castle; } }
         public King(ColorsEnum color, Texture2D chessPieces, Rectangle position) : base(color, PiecesEnum.King, chessPieces, position)
         {
 
@@ -18,6 +20,12 @@ namespace Sprites
         public King(King piece, Rectangle position) : base(piece, position)
         {
 
+        }
+
+        public override void Move(Rectangle targetRectangle)
+        {
+            this._castle = this._castle && this.FirstMove;
+            base.Move(targetRectangle);
         }
 
         public override IEnumerable<Rectangle> DisplayMoves(IEnumerable<PieceBase> teamPieces, IEnumerable<PieceBase> enemyPieces)

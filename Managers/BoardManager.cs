@@ -168,6 +168,8 @@ namespace Managers
                                         this._whitePieces.Where(w => w.Collision(this._selectedPiece));
 
                     TakePiece(pieceToTake.FirstOrDefault());
+                    if (this._selectedPiece.GetType() == typeof(King) && ((King)this._selectedPiece).Castle) 
+                        CastleKing();
                     break;
                 }
             }
@@ -215,6 +217,22 @@ namespace Managers
                 );
                 this._blackPiecesTaken.Add(pieceToTake);
             }
+        }
+
+        public void CastleKing()
+        {
+            King king = (King)this._selectedPiece;
+            IEnumerable<PieceBase> kingsPieces = king.IsWhite ? this._whitePieces : this._blackPieces;
+            if (!king.DidMove) return; // If the King didn't move. Do nothing
+
+            // Find the Rook the King moved next to
+            PieceBase rook = null;
+            if (king.Position.X == 2*UNIT) rook = kingsPieces.Where(w => w.Position.X == UNIT).FirstOrDefault();
+            if (king.Position.X == 7*UNIT) rook = kingsPieces.Where(w => w.Position.X == 8*UNIT).FirstOrDefault();
+
+            if (rook == null) return;
+
+            rook.Move(new Rectangle((2 * king.Position.X) - rook.Position.X, rook.Position.Y, UNIT, UNIT));
         }
 
         public void Draw(SpriteBatch spriteBatch, TurnManager turnManager)
