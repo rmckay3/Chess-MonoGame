@@ -68,7 +68,7 @@ public class Game1 : Game
         // TODO: Add your drawing code here
         _spriteBatch.Begin(SpriteSortMode.BackToFront);
         
-        _boardManager.Draw(_spriteBatch);
+        _boardManager.Draw(_spriteBatch, _turnManager);
 
         _spriteBatch.End();
         base.Draw(gameTime);

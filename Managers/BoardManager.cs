@@ -16,6 +16,7 @@ namespace Managers
         private Rectangle _backgroundRectangle;
         private Texture2D _selectedTexture;
         private Texture2D _lastMovedTexture;
+        private Texture2D _dangerTexture;
         private Texture2D _background;
         private Texture2D _chessPieces;
         private List<PieceBase> _whitePieces;
@@ -23,6 +24,7 @@ namespace Managers
         private List<PieceBase> _blackPieces;
         private List<PieceBase> _blackPiecesTaken;
         private PieceBase _selectedPiece;
+        private PieceBase _pieceToHighlight;
         private IEnumerable<Rectangle> _selectedPieceMoves;
 
         public BoardManager()
@@ -36,13 +38,18 @@ namespace Managers
             this._background = textureArray[0];
             this._chessPieces = textureArray[1];
             this._selectedTexture = new Texture2D(graphicsDevice, UNIT, UNIT);
-            Color[] colors = new Color[UNIT * UNIT];
-            for (int i = 0; i < colors.Length; i++) colors[i] = Color.Tan;
+            Color color = new(Color.Tan, 0.85f);
+            Color[] colors = Enumerable.Repeat(color, UNIT*UNIT).ToArray();
             this._selectedTexture.SetData(colors);
             this._lastMovedTexture = new Texture2D(graphicsDevice, UNIT, UNIT);
-            colors = new Color[UNIT * UNIT];
-            for (int i = 0; i < colors.Length; i++) colors[i] = Color.SpringGreen;
+            color = new(Color.SpringGreen, 0.6f);
+            colors = Enumerable.Repeat(color, UNIT*UNIT).ToArray();
             this._lastMovedTexture.SetData(colors);
+            this._dangerTexture = new Texture2D(graphicsDevice, UNIT, UNIT);
+            color = new(Color.OrangeRed, 0.85f);
+            colors = Enumerable.Repeat(color, UNIT*UNIT).ToArray();
+            this._dangerTexture.SetData(colors);
+
 
             this._blackPieces = new List<PieceBase>
             {
@@ -100,6 +107,23 @@ namespace Managers
                 {
                     MovePiece(inputStateManager, turnManager, stateManager);
                 }
+            }
+
+            this._pieceToHighlight = null;
+
+            if (stateManager.GameState == GameStateEnum.WhiteInCheck)
+            {
+                this._pieceToHighlight = this._whitePieces.Where(w => w.GetType() == typeof(King)).FirstOrDefault();
+            }
+            else if (stateManager.GameState == GameStateEnum.BlackInCheck)
+            {
+                this._pieceToHighlight = this._blackPieces.Where(w => w.GetType() == typeof(King)).FirstOrDefault();
+
+            }
+            
+            if (stateManager.GameState == GameStateEnum.WhiteWin || stateManager.GameState == GameStateEnum.BlackWin)
+            {
+
             }
 
         }
@@ -193,21 +217,35 @@ namespace Managers
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, TurnManager turnManager)
         {
 
             spriteBatch.Draw(this._background, this._backgroundRectangle, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 1);
 
             if (this._selectedPiece != null)
             {
-                spriteBatch.Draw(this._selectedTexture, this._selectedPiece.Position, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.9f);
+                spriteBatch.Draw(this._selectedTexture, this._selectedPiece.Position, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.8f);
                 foreach (Rectangle move in this._selectedPieceMoves)
                 {
-                    spriteBatch.Draw(this._selectedTexture, move, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.9f);
+                    spriteBatch.Draw(this._selectedTexture, move, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.8f);
                 }
             }
 
+            if (turnManager.LastPieceMoved != null)
+            {
+                spriteBatch.Draw(this._lastMovedTexture, turnManager.LastPieceMoved.Position, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.9f);
+            }
+            if (this._pieceToHighlight != null)
+            {
+                spriteBatch.Draw(this._dangerTexture, this._pieceToHighlight.Position, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.9f);
+            }
+
             foreach (PieceBase piece in this._blackPieces)
+            {
+                piece.Draw(spriteBatch);
+            }
+
+            foreach (PieceBase piece in this._whitePieces)
             {
                 piece.Draw(spriteBatch);
             }
@@ -217,11 +255,6 @@ namespace Managers
             {
                 piece.Draw(spriteBatch, order);
                 order -= 0.01f;
-            }
-
-            foreach (PieceBase piece in this._whitePieces)
-            {
-                piece.Draw(spriteBatch);
             }
 
             order = -0.01f;

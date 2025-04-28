@@ -4,8 +4,8 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>c:/Dev/MonoGame/Content/board.png</File>
-    <File>c:/Dev/MonoGame/Content/Chess_Pieces_Sprite.png</File>
+    <File>C:/Dev/MonoGame/Content/board.png</File>
+    <File>C:/Dev/MonoGame/Content/Chess_Pieces_Sprite.png</File>
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />

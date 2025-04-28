@@ -11,10 +11,9 @@ namespace Managers
 {
     public class StateManager
     {
-        private bool _whiteInCheck = false;
-        private bool _blackInCheck = false;
-        public bool WhiteInCheck { get { return _whiteInCheck; } }
-        public bool BlackInCheck { get { return _blackInCheck; } }
+        private GameStateEnum _gameState = GameStateEnum.Normal;
+        public GameStateEnum GameState { get { return _gameState; } }
+        private PieceBase _checkingPiece;
         public StateManager()
         {
 
@@ -22,35 +21,93 @@ namespace Managers
 
         public void CheckGameState(IEnumerable<PieceBase> checkingPieces, IEnumerable<PieceBase> toBeChecked)
         {
-            if (IsInCheck(checkingPieces, toBeChecked))
+            this._gameState = GameStateEnum.Normal;
+            this._checkingPiece = null;
+            if (IsCheck(checkingPieces, toBeChecked))
             {
-                _whiteInCheck = checkingPieces.FirstOrDefault().IsWhite;
-                _blackInCheck = !checkingPieces.FirstOrDefault().IsWhite;
-                return;
-            }
+                this._gameState = checkingPieces.FirstOrDefault().IsWhite ? GameStateEnum.BlackInCheck : GameStateEnum.WhiteInCheck;
 
-            _whiteInCheck = false;
-            _blackInCheck = false;
+                if (IsCheckmate(checkingPieces, toBeChecked))
+                {
+                    this._gameState = this._gameState == GameStateEnum.BlackInCheck ? GameStateEnum.WhiteWin : GameStateEnum.BlackWin;
+                }
+            }
         }
 
-        public bool IsInCheck(IEnumerable<PieceBase> checkingPieces, IEnumerable<PieceBase> toBeChecked)
+        public bool IsCheck(IEnumerable<PieceBase> checkingPieces, IEnumerable<PieceBase> toBeChecked)
         {
             King kingToVerify = (King)toBeChecked.Where(w => w.GetType() == typeof(King)).FirstOrDefault();
 
             foreach (PieceBase piece in checkingPieces)
             {
+                IEnumerable<Rectangle> checkingPieceMoves = piece.DisplayMoves(checkingPieces, toBeChecked);
                 // If there will be a collision with the available moves, then the other player is in check
                 if (
-                    piece.DisplayMoves(checkingPieces, toBeChecked)
-                         .Where(w => kingToVerify.Collision(w))
-                         .Any()
+                    checkingPieceMoves.Where(kingToVerify.Collision)
+                                      .Any()
                 )
                 {
+                    this._checkingPiece = piece;
                     return true;
                 }
             }
 
             return false;
+        }
+
+        public bool IsCheckmate(IEnumerable<PieceBase> checkingPieces, IEnumerable<PieceBase> toBeChecked)
+        {
+            IEnumerable<Rectangle> checkingPieceMoves = this._checkingPiece.DisplayMoves(checkingPieces, toBeChecked);
+
+            List<PieceBase> copyOfTeamPieces = toBeChecked.Select(s => PieceManager.Instance.GenerateCopyPiece(s)).ToList();
+            List<PieceBase> copyOfEnemyPieces = checkingPieces.Select(s => PieceManager.Instance.GenerateCopyPiece(s)).ToList();
+            foreach (PieceBase teamPiece in toBeChecked.Where(w => w.GetType() != typeof(King)))
+            {
+                IEnumerable<Rectangle> teamPieceMoves = teamPiece.DisplayMoves(toBeChecked, checkingPieces);
+                PieceBase copyTeamPiece = copyOfTeamPieces.Where(w => w.ID == teamPiece.ID).FirstOrDefault();
+                foreach (var move in teamPieceMoves.Intersect(checkingPieceMoves))
+                {
+                    copyTeamPiece.Move(move);
+                    var copyPieceToTake = copyOfEnemyPieces.Where(w => w.Collision(copyTeamPiece)).FirstOrDefault();
+                    if (copyPieceToTake != null)
+                    {
+                        copyOfEnemyPieces.Remove(copyPieceToTake);
+                    }
+
+                    if (!IsCheck(copyOfEnemyPieces, copyOfTeamPieces)) return false; // Piece can move and King no long be in check. Not Checkmate
+
+                    if (copyPieceToTake != null)
+                    {
+                        copyOfEnemyPieces.Add(copyPieceToTake);
+                    }
+
+                }
+            }
+
+            King checkedKing = (King)toBeChecked.Where(w=> w.GetType() == typeof(King))
+                                                .FirstOrDefault();
+
+            IEnumerable<Rectangle> checkedKingMoves = checkedKing.DisplayMoves(toBeChecked, checkingPieces);
+
+            PieceBase copyPieceToMove = copyOfTeamPieces.Where(w => w.ID == checkedKing.ID).FirstOrDefault();
+            foreach(var move in checkedKingMoves)
+            {
+                copyPieceToMove.Move(move);
+                var copyPieceToTake = copyOfEnemyPieces.Where(w => w.Collision(copyPieceToMove)).FirstOrDefault();
+                if (copyPieceToTake != null)
+                {
+                    copyOfEnemyPieces.Remove(copyPieceToTake);
+                }
+
+                if (!IsCheck(copyOfEnemyPieces, copyOfTeamPieces)) return false; // King can escape at least 1 way. Not Checkmate
+
+                if (copyPieceToTake != null)
+                {
+                    copyOfEnemyPieces.Add(copyPieceToTake);
+                }
+            }
+
+            return true; // King can not escape or be protected. Checkmate
         }
 
         public IEnumerable<Rectangle> CheckPlayerMoves(PieceBase pieceToMove, IEnumerable<PieceBase> teamPieces, IEnumerable<PieceBase> enemyPieces)
@@ -68,7 +125,9 @@ namespace Managers
                 {
                     copyOfEnemyPieces.Remove(copyPieceToTake);
                 }
-                if (!IsInCheck(copyOfEnemyPieces, copyOfTeamPieces)) validMoves.Add(move);
+
+                CheckGameState(copyOfEnemyPieces, copyOfTeamPieces);
+                if (this._gameState == GameStateEnum.Normal) validMoves.Add(move);
                 if (copyPieceToTake != null)
                 {
                     copyOfEnemyPieces.Add(copyPieceToTake);
