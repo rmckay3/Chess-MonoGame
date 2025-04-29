@@ -64,6 +64,7 @@ namespace Managers
             foreach (PieceBase teamPiece in toBeChecked.Where(w => w.GetType() != typeof(King)))
             {
                 IEnumerable<Rectangle> teamPieceMoves = teamPiece.DisplayMoves(toBeChecked, checkingPieces);
+                teamPieceMoves = teamPieceMoves.Where(w => toBeChecked.Where(w => w.Collision(w)).Any());
                 PieceBase copyTeamPiece = copyOfTeamPieces.Where(w => w.ID == teamPiece.ID).FirstOrDefault();
                 foreach (var move in teamPieceMoves.Intersect(checkingPieceMoves))
                 {
@@ -88,6 +89,7 @@ namespace Managers
                                                 .FirstOrDefault();
 
             IEnumerable<Rectangle> checkedKingMoves = checkedKing.DisplayMoves(toBeChecked, checkingPieces);
+            checkedKingMoves = checkedKingMoves.Where(w => !toBeChecked.Where(w => w.Collision(w)).Any());
 
             PieceBase copyPieceToMove = copyOfTeamPieces.Where(w => w.ID == checkedKing.ID).FirstOrDefault();
             foreach(var move in checkedKingMoves)

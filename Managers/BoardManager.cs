@@ -95,7 +95,7 @@ namespace Managers
             this._whitePiecesTaken = [];
         }
 
-        public void Update(InputStateManager inputStateManager, TurnManager turnManager, StateManager stateManager)
+        public void Update(InputStateManager inputStateManager, TurnManager turnManager, StateManager stateManager, DisplayManager displayManager)
         {
             if (inputStateManager.LeftClickEvent)
             {
@@ -123,7 +123,8 @@ namespace Managers
             
             if (stateManager.GameState == GameStateEnum.WhiteWin || stateManager.GameState == GameStateEnum.BlackWin)
             {
-
+                string displayBody = stateManager.GameState == GameStateEnum.WhiteWin ? "White has won!" : "Black has won!";
+                displayManager.CreateDisplayBox("Checkmate", "Checkmate", displayBody, 128, 64, 20, 9 * UNIT / 2, 9 * UNIT / 2);
             }
 
         }
@@ -238,24 +239,24 @@ namespace Managers
         public void Draw(SpriteBatch spriteBatch, TurnManager turnManager)
         {
 
-            spriteBatch.Draw(this._background, this._backgroundRectangle, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 1);
+            spriteBatch.Draw(this._background, this._backgroundRectangle, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0);
 
             if (this._selectedPiece != null)
             {
-                spriteBatch.Draw(this._selectedTexture, this._selectedPiece.Position, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.8f);
+                spriteBatch.Draw(this._selectedTexture, this._selectedPiece.Position, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.1f);
                 foreach (Rectangle move in this._selectedPieceMoves)
                 {
-                    spriteBatch.Draw(this._selectedTexture, move, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.8f);
+                    spriteBatch.Draw(this._selectedTexture, move, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.1f);
                 }
             }
 
             if (turnManager.LastPieceMoved != null)
             {
-                spriteBatch.Draw(this._lastMovedTexture, turnManager.LastPieceMoved.Position, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.9f);
+                spriteBatch.Draw(this._lastMovedTexture, turnManager.LastPieceMoved.Position, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.3f);
             }
             if (this._pieceToHighlight != null)
             {
-                spriteBatch.Draw(this._dangerTexture, this._pieceToHighlight.Position, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.9f);
+                spriteBatch.Draw(this._dangerTexture, this._pieceToHighlight.Position, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.3f);
             }
 
             foreach (PieceBase piece in this._blackPieces)

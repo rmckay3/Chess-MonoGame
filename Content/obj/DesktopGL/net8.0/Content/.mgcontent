@@ -4,10 +4,12 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
+    <File>C:/Dev/MonoGame/Content/Arial.spritefont</File>
     <File>C:/Dev/MonoGame/Content/board.png</File>
     <File>C:/Dev/MonoGame/Content/Chess_Pieces_Sprite.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
   </DestFiles>

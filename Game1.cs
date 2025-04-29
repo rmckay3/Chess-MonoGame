@@ -10,10 +10,12 @@ public class Game1 : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
+    private SpriteFont _font;
     private InputStateManager _inputStateManager;
     private BoardManager _boardManager;
     private TurnManager _turnManager;
     private StateManager _stateManager;
+    private DisplayManager _displayManager;
 
     public Game1()
     {
@@ -32,6 +34,7 @@ public class Game1 : Game
         _boardManager = new BoardManager();
         _turnManager = new TurnManager();
         _stateManager = new StateManager();
+        _displayManager = new DisplayManager();
 
         base.Initialize();
     }
@@ -39,15 +42,18 @@ public class Game1 : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
+        _font = Content.Load<SpriteFont>("Arial");
 
         // Board should be able to fit 8 pieces across vertical and horizontal
         _inputStateManager.Load();
+        _displayManager.Load(GraphicsDevice, _font, _font);
         _boardManager.Load(GraphicsDevice, 
         [
             Content.Load<Texture2D>("board"),
             Content.Load<Texture2D>("Chess_Pieces_Sprite")
         ]);
 
+        _displayManager.CreateDisplayBox("Test", "Header", "This is a test", 256, 128, 20, 9 * 45 / 4, 9 * 45 / 4);
     }
 
     protected override void Update(GameTime gameTime)
@@ -57,7 +63,7 @@ public class Game1 : Game
 
         // TODO: Add your update logic here
         _inputStateManager.Update();
-        _boardManager.Update(_inputStateManager, _turnManager, _stateManager);
+        _boardManager.Update(_inputStateManager, _turnManager, _stateManager, _displayManager);
 
         base.Update(gameTime);
     }
@@ -66,9 +72,10 @@ public class Game1 : Game
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
         // TODO: Add your drawing code here
-        _spriteBatch.Begin(SpriteSortMode.BackToFront);
+        _spriteBatch.Begin(SpriteSortMode.FrontToBack);
         
         _boardManager.Draw(_spriteBatch, _turnManager);
+        _displayManager.Draw(_spriteBatch);
 
         _spriteBatch.End();
         base.Draw(gameTime);
