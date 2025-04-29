@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Utilities.Extensions;
 
 namespace Utilities {
     public class DisplayBox {
@@ -111,8 +112,8 @@ namespace Utilities {
         {
             spriteBatch.DrawString(this._headerFont, this._header, new Vector2((2*this.background.X + this._width) / 2, this.background.Y + 10), Color.Black, 0, this.fontOriginHeader, 1.0f, SpriteEffects.None, 1f);
             spriteBatch.DrawString(this._bodyFont, this._body, new Vector2((2*this.body.X + this._width) / 2, (2*this.body.Y + this._height - this._margin) / 2), Color.Black, 0, this.fontOriginBody, 1.0f, SpriteEffects.None, 1f);
-            spriteBatch.Draw(backgroundTexture, this.background, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.98f);
-            spriteBatch.Draw(bodyTexture, this.body, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.99f);
+            spriteBatch.DrawWithBorder(backgroundTexture, this.background, 6, Color.DarkGray, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.98f);
+            spriteBatch.DrawWithBorder(bodyTexture, this.body, 6, Color.DarkGray, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.99f);
         }
     }
 }

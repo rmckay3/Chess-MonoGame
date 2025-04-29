@@ -53,7 +53,7 @@ public class Game1 : Game
             Content.Load<Texture2D>("Chess_Pieces_Sprite")
         ]);
 
-        _displayManager.CreateDisplayBox("Test", "Header", "This is a test", 256, 128, 20, 9 * 45 / 4, 9 * 45 / 4);
+        _displayManager.CreateDisplayBox("Test", "Header", "This is a test", 300, 150, 30, 9 * 45 / 4, 9 * 45 / 4);
     }
 
     protected override void Update(GameTime gameTime)
