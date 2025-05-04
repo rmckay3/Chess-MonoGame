@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Enums;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Utilities;
@@ -30,6 +32,18 @@ namespace Managers {
         public void UpdateDisplayBox(string name, string header, string body, int width, int height, int margin, int x, int y)
         {
             this._displayBoxes[name] = new DisplayBox(graphicsDevice, headerFont, bodyFont, header, body, width, height, x, y, margin);
+        }
+
+        public void AddButtonToDisplayBox(string nameOfDisplayBox, ButtonTypeEnum buttonType, GraphicsDevice graphicsDevice, int x, int y, int width, int height, SpriteFont textFont, Color color, string text = "", Action onClick = null)
+        {
+            if (!this._displayBoxes.ContainsKey(nameOfDisplayBox)) throw new ArgumentException("Invalid Display Box");
+
+            ((DisplayBox)this._displayBoxes[nameOfDisplayBox]).AddButton(ButtonFactory.Create(buttonType, graphicsDevice, x, y, width, height, textFont, color, text, onClick));
+        }
+
+        public bool CheckIfDisplayBoxExists(string name)
+        {
+            return this._displayBoxes.ContainsKey(name);
         }
 
         public void Update(GameTime gameTime, InputStateManager inputStateManager)

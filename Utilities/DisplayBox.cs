@@ -121,6 +121,11 @@ namespace Utilities {
             };
         }
 
+        public void AddButton(Button button)
+        {
+            this._buttons.Add(button);
+        }
+
         public void Update(GameTime gameTime, InputStateManager inputStateManager) {
             foreach (var button in this._buttons) {
                 if (inputStateManager.LeftClickEvent && button.IsClicked(inputStateManager)) button.Click();

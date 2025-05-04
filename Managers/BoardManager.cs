@@ -121,10 +121,11 @@ namespace Managers
 
             }
             
-            if (stateManager.GameState == GameStateEnum.WhiteWin || stateManager.GameState == GameStateEnum.BlackWin)
+            if ((stateManager.GameState == GameStateEnum.WhiteWin || stateManager.GameState == GameStateEnum.BlackWin) && 
+                 !displayManager.CheckIfDisplayBoxExists("Checkmate"))
             {
                 string displayBody = stateManager.GameState == GameStateEnum.WhiteWin ? "White has won!" : "Black has won!";
-                displayManager.CreateDisplayBox("Checkmate", "Checkmate", displayBody, 128, 64, 20, 9 * UNIT / 2, 9 * UNIT / 2);
+                displayManager.CreateDisplayBox("Checkmate", "Checkmate", displayBody, 300, 150, 20, ((9 * UNIT) - 300) / 2, ((9 * UNIT ) - 150) / 2);
             }
 
         }
