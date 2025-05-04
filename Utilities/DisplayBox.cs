@@ -2,11 +2,10 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using Utilities.Extensions;
 using Managers;
+using MonoGame;
 
 namespace Utilities {
     public class DisplayBox {
@@ -118,8 +117,14 @@ namespace Utilities {
 
             this._buttons = new List<Button>()
             {
-                new Button(graphicsDevice, (this._x + (this._width / 2)) - 30, (this._y + (9*(this._height - this._margin) / 10)) + 10, 60, 20, "OK", this._bodyFont, Color.DarkGray, () => { return; })
+                new Button(graphicsDevice, this._x + (this._width / 2) - 30, this._y + (9*(this._height - this._margin) / 10) + 10, 60, 20, "OK", this._bodyFont, Color.DarkGray, () => { Game1.Quit = true; })
             };
+        }
+
+        public void Update(GameTime gameTime, InputStateManager inputStateManager) {
+            foreach (var button in this._buttons) {
+                if (inputStateManager.LeftClickEvent && button.IsClicked(inputStateManager)) button.Click();
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)

@@ -27,7 +27,7 @@ namespace Utilities.Extensions {
             Color[] test = new Color[destinationRectangle.Width * destinationRectangle.Height];
             int startIndexForCopy = (destinationRectangle.Width * destinationRectangle.Height) - colors.Length;
             Texture2D updatedTexture = new Texture2D(texture.GraphicsDevice, texture.Width - borderWidth, texture.Height - borderWidth);
-            //texture.GetData(colors, startIndexForCopy + 1, newDestinationRectangle.Width * newDestinationRectangle.Height);
+
             texture.GetData(test);
             colors = test.Skip(startIndexForCopy).ToArray();
             updatedTexture.SetData(colors);

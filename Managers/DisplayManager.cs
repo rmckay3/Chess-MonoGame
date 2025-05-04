@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Utilities;
 
@@ -29,6 +30,13 @@ namespace Managers {
         public void UpdateDisplayBox(string name, string header, string body, int width, int height, int margin, int x, int y)
         {
             this._displayBoxes[name] = new DisplayBox(graphicsDevice, headerFont, bodyFont, header, body, width, height, x, y, margin);
+        }
+
+        public void Update(GameTime gameTime, InputStateManager inputStateManager)
+        {
+            foreach(DisplayBox box in this._displayBoxes.Values) {
+                box.Update(gameTime, inputStateManager);
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch) 

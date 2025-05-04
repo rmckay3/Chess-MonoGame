@@ -16,6 +16,7 @@ public class Game1 : Game
     private TurnManager _turnManager;
     private StateManager _stateManager;
     private DisplayManager _displayManager;
+    public static bool Quit = false;
 
     public Game1()
     {
@@ -58,12 +59,13 @@ public class Game1 : Game
 
     protected override void Update(GameTime gameTime)
     {
-        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+        if (Quit || GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
 
         // TODO: Add your update logic here
         _inputStateManager.Update();
         _boardManager.Update(_inputStateManager, _turnManager, _stateManager, _displayManager);
+        _displayManager.Update(gameTime, _inputStateManager);
 
         base.Update(gameTime);
     }
