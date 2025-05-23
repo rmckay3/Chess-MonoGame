@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>c:/Dev/MonoGame/Content/Chess_Pieces_Sprite.png</SourceFile>
+  <SourceFile>C:/Dev/MonoGame/Content/Chess_Pieces_Sprite.png</SourceFile>
   <SourceTime>2024-09-14T13:25:48.0915155-04:00</SourceTime>
-  <DestFile>c:/Dev/MonoGame/Content/bin/DesktopGL/Chess_Pieces_Sprite.xnb</DestFile>
-  <DestTime>2024-09-14T13:31:58.1966262-04:00</DestTime>
+  <DestFile>C:/Dev/MonoGame/Content/bin/DesktopGL/Chess_Pieces_Sprite.xnb</DestFile>
+  <DestTime>2025-05-23T18:04:44.1606247-04:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2024-08-16T13:05:56-04:00</ImporterTime>
   <Processor>TextureProcessor</Processor>
