@@ -12,20 +12,16 @@ namespace Managers {
         private GraphicsDevice graphicsDevice;
         private SpriteFont headerFont;
         private SpriteFont bodyFont;
-        private Texture2D displayBoxTexture;
-        private Texture2D buttonTexture;
 
         public DisplayManager() {
 
         }
 
-        public void Load(GraphicsDevice graphicsDevice, SpriteFont headerFont, SpriteFont bodyFont, Texture2D[] textureArray)
+        public void Load(GraphicsDevice graphicsDevice, SpriteFont headerFont, SpriteFont bodyFont)
         {
             this.graphicsDevice = graphicsDevice;
             this.headerFont = headerFont;
             this.bodyFont = bodyFont;
-            this.displayBoxTexture = textureArray[0];
-            this.buttonTexture = textureArray[1];
         }
 
         public void CreateDisplayBox(string name, string header, string body, int width, int height, int margin, int x, int y)

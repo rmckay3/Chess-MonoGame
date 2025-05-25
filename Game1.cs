@@ -53,16 +53,8 @@ public class Game1 : Game
 
         // Board should be able to fit 8 pieces across vertical and horizontal
         _inputStateManager.Load();
-        _displayManager.Load(GraphicsDevice, _font, _font, 
-        [
-            Content.Load<Texture2D>("DialogBox"),
-            Content.Load<Texture2D>("Button")
-        ]);
-        _boardManager.Load(GraphicsDevice, 
-        [
-            Content.Load<Texture2D>("board"),
-            Content.Load<Texture2D>("Chess_Pieces_Sprite")
-        ]);
+        _displayManager.Load(GraphicsDevice, _font, _font);
+        _boardManager.Load(GraphicsDevice);
 
         //_displayManager.CreateDisplayBox("Test", "", "This is a test", 300, 150, 30, 9 * 45 / 4, 9 * 45 / 4);
     }
