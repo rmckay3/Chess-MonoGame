@@ -125,7 +125,7 @@ namespace Managers
                  !displayManager.CheckIfDisplayBoxExists("Checkmate"))
             {
                 string displayBody = stateManager.GameState == GameStateEnum.WhiteWin ? "White has won!" : "Black has won!";
-                displayManager.CreateDisplayBox("Checkmate", "Checkmate", displayBody, 300, 150, 20, ((9 * UNIT) - 300) / 2, ((9 * UNIT ) - 150) / 2);
+                displayManager.CreateDisplayBox("Checkmate", "", displayBody, 300, 150, 20, ((9 * UNIT) - 300) / 2, ((9 * UNIT ) - 150) / 2);
             }
 
         }

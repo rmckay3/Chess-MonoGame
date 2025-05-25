@@ -30,19 +30,19 @@ namespace Managers {
 
         public void CreateDisplayBox(string name, string header, string body, int width, int height, int margin, int x, int y)
         {
-            this._displayBoxes.Add(name, new DisplayBox(graphicsDevice, headerFont, bodyFont, header, body, width, height, x, y, margin));
+            this._displayBoxes.Add(name, new DisplayBox(headerFont, bodyFont, header, body, width, height, x, y, margin));
         }
 
         public void UpdateDisplayBox(string name, string header, string body, int width, int height, int margin, int x, int y)
         {
-            this._displayBoxes[name] = new DisplayBox(graphicsDevice, headerFont, bodyFont, header, body, width, height, x, y, margin);
+            this._displayBoxes[name] = new DisplayBox(headerFont, bodyFont, header, body, width, height, x, y, margin);
         }
 
-        public void AddButtonToDisplayBox(string nameOfDisplayBox, ButtonTypeEnum buttonType, GraphicsDevice graphicsDevice, int x, int y, int width, int height, SpriteFont textFont, Color color, string text = "", Action onClick = null)
+        public void AddButtonToDisplayBox(string nameOfDisplayBox, ButtonTypeEnum buttonType, int x, int y, int width, int height, SpriteFont textFont, Color color, string text = "", Action onClick = null)
         {
             if (!this._displayBoxes.ContainsKey(nameOfDisplayBox)) throw new ArgumentException("Invalid Display Box");
 
-            ((DisplayBox)this._displayBoxes[nameOfDisplayBox]).AddButton(ButtonFactory.Create(buttonType, graphicsDevice, x, y, width, height, textFont, color, text, onClick));
+            ((DisplayBox)this._displayBoxes[nameOfDisplayBox]).AddButton(ButtonFactory.Create(buttonType, x, y, width, height, textFont, color, text, onClick));
         }
 
         public bool CheckIfDisplayBoxExists(string name)

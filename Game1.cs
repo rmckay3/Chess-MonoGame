@@ -16,7 +16,6 @@ public class Game1 : Game
     private TurnManager _turnManager;
     private StateManager _stateManager;
     private DisplayManager _displayManager;
-    private TextureManager _textureManager;
     public static bool Quit = false;
 
     public Game1()
@@ -37,7 +36,6 @@ public class Game1 : Game
         _turnManager = new TurnManager();
         _stateManager = new StateManager();
         _displayManager = new DisplayManager();
-        _textureManager = new TextureManager();
 
         base.Initialize();
     }
@@ -48,10 +46,10 @@ public class Game1 : Game
         _font = Content.Load<SpriteFont>("Arial");
 
         // Load Texture Content
-        _textureManager.AddTexture("DialogBox", Content.Load<Texture2D>("DialogBox"));
-        _textureManager.AddTexture("Button", Content.Load<Texture2D>("Button"));
-        _textureManager.AddTexture("Board", Content.Load<Texture2D>("board"));
-        _textureManager.AddTexture("ChessPieceSprite", Content.Load<Texture2D>("Chess_Pieces_Sprite"));
+        TextureManager.Instance.AddTexture("DialogBox", Content.Load<Texture2D>("DialogBox"));
+        TextureManager.Instance.AddTexture("Button", Content.Load<Texture2D>("Button"));
+        TextureManager.Instance.AddTexture("Board", Content.Load<Texture2D>("board"));
+        TextureManager.Instance.AddTexture("ChessPieceSprite", Content.Load<Texture2D>("Chess_Pieces_Sprite"));
 
         // Board should be able to fit 8 pieces across vertical and horizontal
         _inputStateManager.Load();
@@ -66,7 +64,7 @@ public class Game1 : Game
             Content.Load<Texture2D>("Chess_Pieces_Sprite")
         ]);
 
-        //_displayManager.CreateDisplayBox("Test", "Header", "This is a test", 300, 150, 30, 9 * 45 / 4, 9 * 45 / 4);
+        //_displayManager.CreateDisplayBox("Test", "", "This is a test", 300, 150, 30, 9 * 45 / 4, 9 * 45 / 4);
     }
 
     protected override void Update(GameTime gameTime)

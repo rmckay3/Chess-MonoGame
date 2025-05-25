@@ -21,10 +21,7 @@ namespace Utilities {
         private SpriteFont _bodyFont;
         private List<Button> _buttons;
 
-        private Rectangle background;
         private Rectangle body;
-        private Texture2D backgroundTexture;
-        private Texture2D bodyTexture;
         private Vector2 fontOriginHeader;
         private Vector2 fontOriginBody;
         private Vector2 headerLocation;
@@ -39,7 +36,7 @@ namespace Utilities {
         public int Y { get { return _y;} }
 
         // Default Constructor
-        public DisplayBox(GraphicsDevice graphicsDevice, SpriteFont headerFont, SpriteFont bodyFont) 
+        public DisplayBox(SpriteFont headerFont, SpriteFont bodyFont) 
         {
             _headerFont = headerFont;
             _bodyFont = bodyFont;
@@ -49,13 +46,13 @@ namespace Utilities {
             _height = 64;
             _margin = 20;
 
-            Initialize(graphicsDevice);
+            Initialize();
         }
 
         ///
         /// Initialize Text for header and body
         /// 
-        public DisplayBox(GraphicsDevice graphicsDevice, SpriteFont headerFont, SpriteFont bodyFont, string header, string body) 
+        public DisplayBox(SpriteFont headerFont, SpriteFont bodyFont, string header, string body) 
         {
             _headerFont = headerFont;
             _bodyFont = bodyFont;
@@ -65,13 +62,13 @@ namespace Utilities {
             _height = 64;
             _margin = 20;
 
-            Initialize(graphicsDevice);
+            Initialize();
         }
 
         ///
         /// Set Text in header and body, as well as height and width of Display Box
         /// 
-        public DisplayBox(GraphicsDevice graphicsDevice, SpriteFont headerFont, SpriteFont bodyFont, string header, string body, int width, int height, int margin = 20)
+        public DisplayBox(SpriteFont headerFont, SpriteFont bodyFont, string header, string body, int width, int height, int margin = 20)
         {
             _headerFont = headerFont;
             _bodyFont = bodyFont;
@@ -81,13 +78,13 @@ namespace Utilities {
             _height = height;
             _margin = margin;
 
-            Initialize(graphicsDevice);
+            Initialize();
         }
 
         ///
         /// Set Text in header and body, well as height and width of Display Box, and location of DisplayBox
         /// 
-        public DisplayBox(GraphicsDevice graphicsDevice, SpriteFont headerFont, SpriteFont bodyFont, string header, string body, int width, int height, int x, int y, int margin = 20)
+        public DisplayBox(SpriteFont headerFont, SpriteFont bodyFont, string header, string body, int width, int height, int x, int y, int margin = 20)
         {
             _headerFont = headerFont;
             _bodyFont = bodyFont;
@@ -99,17 +96,12 @@ namespace Utilities {
             _x = x;
             _y = y;
 
-            Initialize(graphicsDevice);
+            Initialize();
         }
 
-        private void Initialize(GraphicsDevice graphicsDevice)
+        private void Initialize()
         {
-            this.background = new Rectangle(this._x, this._y, this._width, this._height);
             this.body = new Rectangle(this._x, this._y + this._margin, this._width, this._height - this._margin);
-            this.backgroundTexture = new Texture2D(graphicsDevice, _width, _height);
-            this.bodyTexture = new Texture2D(graphicsDevice, _width, _height - _margin);
-            this.backgroundTexture.SetData(Enumerable.Repeat(new Color(Color.RoyalBlue, 1.0f), this._width * this._height).ToArray());
-            this.bodyTexture.SetData(Enumerable.Repeat(new Color(Color.LightGray, 1.0f), this._width * (this._height - this._margin)).ToArray());
             this.fontOriginHeader = _headerFont.MeasureString(this._header) / 2;
             this.fontOriginBody = _bodyFont.MeasureString(this._body) / 2;
             this.headerLocation = new Vector2(this._x + (this._width / 2), this._y + (this._margin / 2));
@@ -117,7 +109,7 @@ namespace Utilities {
 
             this._buttons = new List<Button>()
             {
-                new Button(graphicsDevice, this._x + (this._width / 2) - 30, this._y + (9*(this._height - this._margin) / 10) + 10, 60, 20, "OK", this._bodyFont, Color.DarkGray, () => { Game1.Quit = true; })
+                new Button(this._x + (this._width / 2) - 30, this._y + (9*(this._height - this._margin) / 10) + 10, 60, 20, "OK", this._bodyFont, () => { Game1.Quit = true; })
             };
         }
 
@@ -136,8 +128,7 @@ namespace Utilities {
         {
             spriteBatch.DrawString(this._headerFont, this._header, this.headerLocation, Color.Black, 0, this.fontOriginHeader, 1.0f, SpriteEffects.None, 1f);
             spriteBatch.DrawString(this._bodyFont, this._body, this.bodyLocation, Color.Black, 0, this.fontOriginBody, 1.0f, SpriteEffects.None, 1f);
-            spriteBatch.DrawWithBorder(backgroundTexture, this.background, 6, Color.Black, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.90f);
-            spriteBatch.DrawWithBorder(bodyTexture, this.body, 6, Color.Black, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.91f);
+            spriteBatch.Draw(TextureManager.Instance.GetTexture("DialogBox"), this.body, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.90f);
 
             foreach (var button in this._buttons) {
                 button.Draw(spriteBatch);
@@ -155,8 +146,6 @@ namespace Utilities {
         private SpriteFont textFont;
 
         private Rectangle btnBackground;
-        private Texture2D btnTexture;
-        private Color btnColor;
         private Vector2 fontOrigin;
         private Vector2 textLocation;
 
@@ -167,36 +156,32 @@ namespace Utilities {
         public string Text { get { return _text;} }
         public Action Click { get { return _onClick; } }
 
-        public Button(GraphicsDevice graphicsDevice, int x, int y, int width, int height, string text, SpriteFont textFont, Color color) {
+        public Button(int x, int y, int width, int height, string text, SpriteFont textFont) {
             this._width = width;
             this._height = height;
             this._x = x;
             this._y = y;
             this._text = text;
             this.textFont = textFont;
-            this.btnColor = color;
             this.textFont = textFont;
             
-            Initialize(graphicsDevice);
+            Initialize();
         }
 
-        public Button(GraphicsDevice graphicsDevice, int x, int y, int width, int height, string text, SpriteFont textFont, Color color, Action onClick) {
+        public Button(int x, int y, int width, int height, string text, SpriteFont textFont, Action onClick) {
             this._width = width;
             this._height = height;
             this._x = x;
             this._y = y;
             this._text = text;
             this.textFont = textFont;
-            this.btnColor = color;
             this._onClick = onClick;
 
-            Initialize(graphicsDevice);
+            Initialize();
         }
 
-        private void Initialize(GraphicsDevice graphicsDevice) {
+        private void Initialize() {
             this.btnBackground = new Rectangle(this._x, this._y, this._width, this._height);
-            this.btnTexture = new Texture2D(graphicsDevice, this._width, this._height);
-            this.btnTexture.SetData(Enumerable.Repeat(new Color(this.btnColor, 1.0f), this._width * this._height).ToArray());
             this.fontOrigin = this.textFont.MeasureString(this._text) / 2;
             this.textLocation = new Vector2(this._x + (this._width / 2), this._y + (this._height / 2));
         }
@@ -211,7 +196,7 @@ namespace Utilities {
 
         public void Draw(SpriteBatch spriteBatch) {
             spriteBatch.DrawString(this.textFont, this._text, this.textLocation, Color.Black, 0, this.fontOrigin, 0.7f, SpriteEffects.None, 1f);
-            spriteBatch.DrawWithBorder(this.btnTexture, this.btnBackground, 6, Color.Black, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.93f);
+            spriteBatch.Draw(TextureManager.Instance.GetTexture("Button"), this.btnBackground, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.93f);
         }
     }
 }
