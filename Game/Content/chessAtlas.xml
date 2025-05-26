@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas>
+  <Texture>Chess_Pieces_Sprite</Texture>
+  <Regions>
+    <Region name="WhitePawn" x="225" y="0" width="45" height="45" />
+    <Region name="WhiteRook" x="180" y="0" width="45" height="45" />
+    <Region name="WhiteKnight" x="135" y="0" width="45" height="45" />
+    <Region name="WhiteBishop" x="90" y="0" width="45" height="45" />
+    <Region name="WhiteQueen" x="45" y="0" width="45" height="45" />
+    <Region name="WhiteKing" x="0" y="0" width="45" height="45" />
+    <Region name="BlackPawn" x="225" y="45" width="45" height="45" />
+    <Region name="BlackRook" x="180" y="45" width="45" height="45" />
+    <Region name="BlackKnight" x="135" y="45" width="45" height="45" />
+    <Region name="BlackBishop" x="90" y="45" width="45" height="45" />
+    <Region name="BlackQueen" x="45" y="45" width="45" height="45" />
+    <Region name="BlackKing" x="0" y="45" width="45" height="45" />
+  </Regions>
+</TextureAtlas>

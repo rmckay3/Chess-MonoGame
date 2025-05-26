@@ -1,0 +1,6 @@
+Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"C:/Dev/MonoGame/Game/Content/Arial.spritefont","C:/Dev/MonoGame/Game/Content/bin/DesktopGL/Content/Arial.xnb","FontDescriptionProcessor","SpriteFontContent",2068,21538,0.2098743
+"C:/Dev/MonoGame/Game/Content/board.png","C:/Dev/MonoGame/Game/Content/bin/DesktopGL/Content/board.xnb","TextureProcessor","Texture2DContent",161815,518485,0.0499361
+"C:/Dev/MonoGame/Game/Content/Button.png","C:/Dev/MonoGame/Game/Content/bin/DesktopGL/Content/Button.xnb","TextureProcessor","Texture2DContent",295,11285,0.0036868
+"C:/Dev/MonoGame/Game/Content/Chess_Pieces_Sprite.png","C:/Dev/MonoGame/Game/Content/bin/DesktopGL/Content/Chess_Pieces_Sprite.xnb","TextureProcessor","Texture2DContent",7624,97285,0.0092221
+"C:/Dev/MonoGame/Game/Content/DialogBox.png","C:/Dev/MonoGame/Game/Content/bin/DesktopGL/Content/DialogBox.xnb","TextureProcessor","Texture2DContent",2202,786325,0.0322601
