@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame;
+using MonoGameLibrary;
 using Sprites;
 
 namespace Managers
@@ -30,18 +31,18 @@ namespace Managers
 
         }
 
-        public void Load(GraphicsDevice graphicsDevice)
+        public void Load()
         {
             this._backgroundRectangle = new Rectangle(UNIT, UNIT, 8*UNIT, 8*UNIT);
-            this._selectedTexture = new Texture2D(graphicsDevice, UNIT, UNIT);
+            this._selectedTexture = new Texture2D(Core.Instance.GraphicsDevice, UNIT, UNIT);
             Color color = new(Color.Tan, 0.85f);
             Color[] colors = Enumerable.Repeat(color, UNIT*UNIT).ToArray();
             this._selectedTexture.SetData(colors);
-            this._lastMovedTexture = new Texture2D(graphicsDevice, UNIT, UNIT);
+            this._lastMovedTexture = new Texture2D(Core.Instance.GraphicsDevice, UNIT, UNIT);
             color = new(Color.SpringGreen, 0.6f);
             colors = Enumerable.Repeat(color, UNIT*UNIT).ToArray();
             this._lastMovedTexture.SetData(colors);
-            this._dangerTexture = new Texture2D(graphicsDevice, UNIT, UNIT);
+            this._dangerTexture = new Texture2D(Core.Instance.GraphicsDevice, UNIT, UNIT);
             color = new(Color.OrangeRed, 0.85f);
             colors = Enumerable.Repeat(color, UNIT*UNIT).ToArray();
             this._dangerTexture.SetData(colors);
@@ -49,42 +50,42 @@ namespace Managers
 
             this._blackPieces = new List<PieceBase>
             {
-                new Rook(ColorsEnum.Black, TextureManager.Instance.GetTexture("ChessPieceSprite"), new Rectangle(UNIT, UNIT, UNIT, UNIT)),
-                new Knight(ColorsEnum.Black, TextureManager.Instance.GetTexture("ChessPieceSprite"), new Rectangle(2*UNIT, UNIT, UNIT, UNIT)),
-                new Bishop(ColorsEnum.Black, TextureManager.Instance.GetTexture("ChessPieceSprite"), new Rectangle(3*UNIT, UNIT, UNIT, UNIT)),
-                new Queen(ColorsEnum.Black, TextureManager.Instance.GetTexture("ChessPieceSprite"), new Rectangle(4*UNIT, UNIT, UNIT, UNIT)),
-                new King(ColorsEnum.Black, TextureManager.Instance.GetTexture("ChessPieceSprite"), new Rectangle(5*UNIT, UNIT, UNIT, UNIT)),
-                new Bishop(ColorsEnum.Black, TextureManager.Instance.GetTexture("ChessPieceSprite"), new Rectangle(6*UNIT, UNIT, UNIT, UNIT)),
-                new Knight(ColorsEnum.Black, TextureManager.Instance.GetTexture("ChessPieceSprite"), new Rectangle(7*UNIT, UNIT, UNIT, UNIT)),
-                new Rook(ColorsEnum.Black, TextureManager.Instance.GetTexture("ChessPieceSprite"), new Rectangle(8*UNIT, UNIT, UNIT, UNIT)),
-                new Pawn(ColorsEnum.Black, TextureManager.Instance.GetTexture("ChessPieceSprite"), new Rectangle(1*UNIT, 2*UNIT, UNIT, UNIT)),
-                new Pawn(ColorsEnum.Black, TextureManager.Instance.GetTexture("ChessPieceSprite"), new Rectangle(2*UNIT, 2*UNIT, UNIT, UNIT)),
-                new Pawn(ColorsEnum.Black, TextureManager.Instance.GetTexture("ChessPieceSprite"), new Rectangle(3*UNIT, 2*UNIT, UNIT, UNIT)),
-                new Pawn(ColorsEnum.Black, TextureManager.Instance.GetTexture("ChessPieceSprite"), new Rectangle(4*UNIT, 2*UNIT, UNIT, UNIT)),
-                new Pawn(ColorsEnum.Black, TextureManager.Instance.GetTexture("ChessPieceSprite"), new Rectangle(5*UNIT, 2*UNIT, UNIT, UNIT)),
-                new Pawn(ColorsEnum.Black, TextureManager.Instance.GetTexture("ChessPieceSprite"), new Rectangle(6*UNIT, 2*UNIT, UNIT, UNIT)),
-                new Pawn(ColorsEnum.Black, TextureManager.Instance.GetTexture("ChessPieceSprite"), new Rectangle(7*UNIT, 2*UNIT, UNIT, UNIT)),
-                new Pawn(ColorsEnum.Black, TextureManager.Instance.GetTexture("ChessPieceSprite"), new Rectangle(8*UNIT, 2*UNIT, UNIT, UNIT)),
+                new Rook(ColorsEnum.Black, new Rectangle(UNIT, UNIT, UNIT, UNIT)),
+                new Knight(ColorsEnum.Black, new Rectangle(2*UNIT, UNIT, UNIT, UNIT)),
+                new Bishop(ColorsEnum.Black, new Rectangle(3*UNIT, UNIT, UNIT, UNIT)),
+                new Queen(ColorsEnum.Black, new Rectangle(4*UNIT, UNIT, UNIT, UNIT)),
+                new King(ColorsEnum.Black, new Rectangle(5*UNIT, UNIT, UNIT, UNIT)),
+                new Bishop(ColorsEnum.Black, new Rectangle(6*UNIT, UNIT, UNIT, UNIT)),
+                new Knight(ColorsEnum.Black, new Rectangle(7*UNIT, UNIT, UNIT, UNIT)),
+                new Rook(ColorsEnum.Black, new Rectangle(8*UNIT, UNIT, UNIT, UNIT)),
+                new Pawn(ColorsEnum.Black, new Rectangle(1*UNIT, 2*UNIT, UNIT, UNIT)),
+                new Pawn(ColorsEnum.Black, new Rectangle(2*UNIT, 2*UNIT, UNIT, UNIT)),
+                new Pawn(ColorsEnum.Black, new Rectangle(3*UNIT, 2*UNIT, UNIT, UNIT)),
+                new Pawn(ColorsEnum.Black, new Rectangle(4*UNIT, 2*UNIT, UNIT, UNIT)),
+                new Pawn(ColorsEnum.Black, new Rectangle(5*UNIT, 2*UNIT, UNIT, UNIT)),
+                new Pawn(ColorsEnum.Black, new Rectangle(6*UNIT, 2*UNIT, UNIT, UNIT)),
+                new Pawn(ColorsEnum.Black, new Rectangle(7*UNIT, 2*UNIT, UNIT, UNIT)),
+                new Pawn(ColorsEnum.Black, new Rectangle(8*UNIT, 2*UNIT, UNIT, UNIT)),
             };
 
             this._whitePieces = new List<PieceBase>
             {
-                new Rook(ColorsEnum.White, TextureManager.Instance.GetTexture("ChessPieceSprite"), new Rectangle(1*UNIT, 8*UNIT, UNIT, UNIT)),
-                new Knight(ColorsEnum.White, TextureManager.Instance.GetTexture("ChessPieceSprite"), new Rectangle(2*UNIT, 8*UNIT, UNIT, UNIT)),
-                new Bishop(ColorsEnum.White, TextureManager.Instance.GetTexture("ChessPieceSprite"), new Rectangle(3*UNIT, 8*UNIT, UNIT, UNIT)),
-                new Queen(ColorsEnum.White, TextureManager.Instance.GetTexture("ChessPieceSprite"), new Rectangle(4*UNIT, 8*UNIT, UNIT, UNIT)),
-                new King(ColorsEnum.White, TextureManager.Instance.GetTexture("ChessPieceSprite"), new Rectangle(5*UNIT, 8*UNIT, UNIT, UNIT)),
-                new Bishop(ColorsEnum.White, TextureManager.Instance.GetTexture("ChessPieceSprite"), new Rectangle(6*UNIT, 8*UNIT, UNIT, UNIT)),
-                new Knight(ColorsEnum.White, TextureManager.Instance.GetTexture("ChessPieceSprite"), new Rectangle(7*UNIT, 8*UNIT, UNIT, UNIT)),
-                new Rook(ColorsEnum.White, TextureManager.Instance.GetTexture("ChessPieceSprite"), new Rectangle(8*UNIT, 8*UNIT, UNIT, UNIT)),
-                new Pawn(ColorsEnum.White, TextureManager.Instance.GetTexture("ChessPieceSprite"), new Rectangle(1*UNIT, 7*UNIT, UNIT, UNIT)),
-                new Pawn(ColorsEnum.White, TextureManager.Instance.GetTexture("ChessPieceSprite"), new Rectangle(2*UNIT, 7*UNIT, UNIT, UNIT)),
-                new Pawn(ColorsEnum.White, TextureManager.Instance.GetTexture("ChessPieceSprite"), new Rectangle(3*UNIT, 7*UNIT, UNIT, UNIT)),
-                new Pawn(ColorsEnum.White, TextureManager.Instance.GetTexture("ChessPieceSprite"), new Rectangle(4*UNIT, 7*UNIT, UNIT, UNIT)),
-                new Pawn(ColorsEnum.White, TextureManager.Instance.GetTexture("ChessPieceSprite"), new Rectangle(5*UNIT, 7*UNIT, UNIT, UNIT)),
-                new Pawn(ColorsEnum.White, TextureManager.Instance.GetTexture("ChessPieceSprite"), new Rectangle(6*UNIT, 7*UNIT, UNIT, UNIT)),
-                new Pawn(ColorsEnum.White, TextureManager.Instance.GetTexture("ChessPieceSprite"), new Rectangle(7*UNIT, 7*UNIT, UNIT, UNIT)),
-                new Pawn(ColorsEnum.White, TextureManager.Instance.GetTexture("ChessPieceSprite"), new Rectangle(8*UNIT, 7*UNIT, UNIT, UNIT))
+                new Rook(ColorsEnum.White, new Rectangle(1*UNIT, 8*UNIT, UNIT, UNIT)),
+                new Knight(ColorsEnum.White, new Rectangle(2*UNIT, 8*UNIT, UNIT, UNIT)),
+                new Bishop(ColorsEnum.White, new Rectangle(3*UNIT, 8*UNIT, UNIT, UNIT)),
+                new Queen(ColorsEnum.White, new Rectangle(4*UNIT, 8*UNIT, UNIT, UNIT)),
+                new King(ColorsEnum.White, new Rectangle(5*UNIT, 8*UNIT, UNIT, UNIT)),
+                new Bishop(ColorsEnum.White, new Rectangle(6*UNIT, 8*UNIT, UNIT, UNIT)),
+                new Knight(ColorsEnum.White, new Rectangle(7*UNIT, 8*UNIT, UNIT, UNIT)),
+                new Rook(ColorsEnum.White, new Rectangle(8*UNIT, 8*UNIT, UNIT, UNIT)),
+                new Pawn(ColorsEnum.White, new Rectangle(1*UNIT, 7*UNIT, UNIT, UNIT)),
+                new Pawn(ColorsEnum.White, new Rectangle(2*UNIT, 7*UNIT, UNIT, UNIT)),
+                new Pawn(ColorsEnum.White, new Rectangle(3*UNIT, 7*UNIT, UNIT, UNIT)),
+                new Pawn(ColorsEnum.White, new Rectangle(4*UNIT, 7*UNIT, UNIT, UNIT)),
+                new Pawn(ColorsEnum.White, new Rectangle(5*UNIT, 7*UNIT, UNIT, UNIT)),
+                new Pawn(ColorsEnum.White, new Rectangle(6*UNIT, 7*UNIT, UNIT, UNIT)),
+                new Pawn(ColorsEnum.White, new Rectangle(7*UNIT, 7*UNIT, UNIT, UNIT)),
+                new Pawn(ColorsEnum.White, new Rectangle(8*UNIT, 7*UNIT, UNIT, UNIT))
             };
 
             this._blackPiecesTaken = [];

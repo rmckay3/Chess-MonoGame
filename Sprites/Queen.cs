@@ -7,7 +7,7 @@ namespace Sprites
 {
     public class Queen : PieceBase
     {
-        public Queen(ColorsEnum color, Texture2D chessPieces, Rectangle position) : base(color, PiecesEnum.Queen, chessPieces, position)
+        public Queen(ColorsEnum color, Rectangle position) : base(color, PiecesEnum.Queen, position)
         {
 
         }

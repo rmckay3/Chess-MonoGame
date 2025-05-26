@@ -1,0 +1,3 @@
+[submodule "external/library"]
+	path = external/library
+	url = https://github.com/rmckay3/MonoGameLibrary.git

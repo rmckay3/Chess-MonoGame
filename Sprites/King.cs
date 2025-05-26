@@ -12,7 +12,7 @@ namespace Sprites
     {
         private bool _castle = true;
         public bool Castle { get { return _castle; } }
-        public King(ColorsEnum color, Texture2D chessPieces, Rectangle position) : base(color, PiecesEnum.King, chessPieces, position)
+        public King(ColorsEnum color, Rectangle position) : base(color, PiecesEnum.King, position)
         {
 
         }

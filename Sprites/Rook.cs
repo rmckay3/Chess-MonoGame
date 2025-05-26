@@ -7,7 +7,7 @@ namespace Sprites
 {
     public class Rook : PieceBase
     {
-        public Rook(ColorsEnum color, Texture2D chessPieces, Rectangle position) : base(color, PiecesEnum.Rook, chessPieces, position)
+        public Rook(ColorsEnum color, Rectangle position) : base(color, PiecesEnum.Rook, position)
         {
 
         }

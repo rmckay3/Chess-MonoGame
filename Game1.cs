@@ -2,59 +2,49 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGameLibrary;
+using MonoGameLibrary.Graphics;
 using Managers;
 
 namespace MonoGame;
 
-public class Game1 : Game
+public class Game1 : Core
 {
-    private GraphicsDeviceManager _graphics;
-    private SpriteBatch _spriteBatch;
     private SpriteFont _font;
-    private InputStateManager _inputStateManager;
-    private BoardManager _boardManager;
-    private TurnManager _turnManager;
-    private StateManager _stateManager;
-    private DisplayManager _displayManager;
+    private InputStateManager _inputStateManager = new InputStateManager();
+    private BoardManager _boardManager = new BoardManager();
+    private TurnManager _turnManager = new TurnManager();
+    private StateManager _stateManager = new StateManager();
+    private DisplayManager _displayManager = new DisplayManager();
     public static bool Quit = false;
 
-    public Game1()
+    public Game1() : base("Chess", 450, 450, false)
     {
-        _graphics = new GraphicsDeviceManager(this);
-        Content.RootDirectory = "Content";
-        IsMouseVisible = true;
+
     }
 
     protected override void Initialize()
     {
         // TODO: Add your initialization logic here
-        _graphics.PreferredBackBufferWidth = 450;
-        _graphics.PreferredBackBufferHeight = 450;
-        _graphics.ApplyChanges();
-        _inputStateManager = new InputStateManager();
-        _boardManager = new BoardManager();
-        _turnManager = new TurnManager();
-        _stateManager = new StateManager();
-        _displayManager = new DisplayManager();
 
         base.Initialize();
     }
 
     protected override void LoadContent()
     {
-        _spriteBatch = new SpriteBatch(GraphicsDevice);
         _font = Content.Load<SpriteFont>("Arial");
 
         // Load Texture Content
         TextureManager.Instance.AddTexture("DialogBox", Content.Load<Texture2D>("DialogBox"));
         TextureManager.Instance.AddTexture("Button", Content.Load<Texture2D>("Button"));
         TextureManager.Instance.AddTexture("Board", Content.Load<Texture2D>("board"));
-        TextureManager.Instance.AddTexture("ChessPieceSprite", Content.Load<Texture2D>("Chess_Pieces_Sprite"));
+
+        TextureManager.Instance.AddAtlasFromFile(Content, "chessPieces", "chessAtlas.xml");
 
         // Board should be able to fit 8 pieces across vertical and horizontal
         _inputStateManager.Load();
-        _displayManager.Load(GraphicsDevice, _font, _font);
-        _boardManager.Load(GraphicsDevice);
+        _displayManager.Load(_font, _font);
+        _boardManager.Load();
 
         //_displayManager.CreateDisplayBox("Test", "", "This is a test", 300, 150, 30, 9 * 45 / 4, 9 * 45 / 4);
     }
@@ -76,12 +66,12 @@ public class Game1 : Game
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
         // TODO: Add your drawing code here
-        _spriteBatch.Begin(SpriteSortMode.FrontToBack);
+        SpriteBatch.Begin(SpriteSortMode.FrontToBack);
         
-        _boardManager.Draw(_spriteBatch, _turnManager);
-        _displayManager.Draw(_spriteBatch);
+        _boardManager.Draw(SpriteBatch, _turnManager);
+        _displayManager.Draw(SpriteBatch);
 
-        _spriteBatch.End();
+        SpriteBatch.End();
         base.Draw(gameTime);
     }
 }

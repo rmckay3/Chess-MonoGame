@@ -2,16 +2,17 @@ using System.Collections.Generic;
 using System.Linq;
 using Enums;
 using Managers;
+using MonoGameLibrary.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace Sprites
 {
     public abstract class PieceBase
     {
-        protected Texture2D _chessPieces;
         protected Rectangle _position;
-        protected Rectangle _pieceSprite;
+        protected TextureRegion _pieceTexture;
         protected ColorsEnum _color;
         protected PiecesEnum _pieceType;
         protected const int UNIT = 45;
@@ -29,26 +30,25 @@ namespace Sprites
         public int ID { get { return _id; } }
         public bool FirstMove { get { return isFirstMove; } }
 
-        public PieceBase(ColorsEnum color, PiecesEnum piece, Texture2D chessPieces, Rectangle position)
+        public PieceBase(ColorsEnum color, PiecesEnum piece, Rectangle position)
         {
-            this.Load(color, piece, chessPieces, position);
+            this.Load(color, piece, position);
         }
 
         public PieceBase(PieceBase pieceToCopy, Rectangle newPosition)
         {
-            this.Load(pieceToCopy._color, pieceToCopy._pieceType, pieceToCopy._chessPieces, newPosition, pieceToCopy.ID);
+            this.Load(pieceToCopy._color, pieceToCopy._pieceType, newPosition, pieceToCopy.ID);
             this.isFirstMove = pieceToCopy.isFirstMove;
             this._didMove = pieceToCopy._didMove;
         }
 
-        public void Load(ColorsEnum color, PiecesEnum piece, Texture2D chessPieces, Rectangle position, int id = -1)
+        public void Load(ColorsEnum color, PiecesEnum piece, Rectangle position, int id = -1)
         {
             this._id = id == -1 ? PieceManager.Instance.GenerateID() : id;
             this._color = color;
             this._pieceType = piece;
-            this._chessPieces = chessPieces;
             this._position = position;
-            this._pieceSprite = new Rectangle((int)_pieceType * UNIT, (int)_color * UNIT, UNIT, UNIT);
+            this._pieceTexture = TextureManager.Instance.GetTextureRegionFromAtlas("chessPieces", Enum.GetName(color.GetType(), color) + Enum.GetName(piece.GetType(), piece));
         }
 
         public void Update(InputStateManager inputStateManager)
@@ -90,7 +90,7 @@ namespace Sprites
 
         public void Draw(SpriteBatch spriteBatch, float order = 0)
         {
-            spriteBatch.Draw(_chessPieces, _position, _pieceSprite, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.8f + order);
+            this._pieceTexture.Draw(spriteBatch, new Vector2(_position.X, _position.Y), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0.8f + order);
         }
 
         protected IEnumerable<Rectangle> DiagonalMoves(IEnumerable<PieceBase> teamPieces, IEnumerable<PieceBase> enemyPieces)

@@ -7,7 +7,7 @@ namespace Sprites
 {
     public class Bishop: PieceBase
     {
-        public Bishop(ColorsEnum color, Texture2D chessPieces, Rectangle position) : base(color, PiecesEnum.Bishop, chessPieces, position)
+        public Bishop(ColorsEnum color, Rectangle position) : base(color, PiecesEnum.Bishop, position)
         {
 
         }

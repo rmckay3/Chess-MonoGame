@@ -9,7 +9,6 @@ using Utilities;
 namespace Managers {
     public class DisplayManager {
         private Hashtable _displayBoxes = new Hashtable();
-        private GraphicsDevice graphicsDevice;
         private SpriteFont headerFont;
         private SpriteFont bodyFont;
 
@@ -17,9 +16,8 @@ namespace Managers {
 
         }
 
-        public void Load(GraphicsDevice graphicsDevice, SpriteFont headerFont, SpriteFont bodyFont)
+        public void Load(SpriteFont headerFont, SpriteFont bodyFont)
         {
-            this.graphicsDevice = graphicsDevice;
             this.headerFont = headerFont;
             this.bodyFont = bodyFont;
         }

@@ -13,7 +13,7 @@ namespace Sprites
         protected bool isSecondMove = false;
         protected Rectangle lastPosition = new Rectangle();
         public bool IsSecondMove { get { return isSecondMove;} }
-        public Pawn(ColorsEnum color, Texture2D chessPieces, Rectangle position) : base(color, PiecesEnum.Pawn, chessPieces, position)
+        public Pawn(ColorsEnum color, Rectangle position) : base(color, PiecesEnum.Pawn, position)
         {
 
         }

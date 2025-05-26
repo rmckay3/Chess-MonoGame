@@ -2,8 +2,8 @@
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <SourceFile>C:/Dev/MonoGame/Content/Arial.spritefont</SourceFile>
   <SourceTime>2025-04-29T10:21:44.8947695-04:00</SourceTime>
-  <DestFile>C:/Dev/MonoGame/Content/bin/DesktopGL/Content/Arial.xnb</DestFile>
-  <DestTime>2025-05-26T15:51:20.4456635-04:00</DestTime>
+  <DestFile>C:/Dev/MonoGame/Content/bin/DesktopGL/Arial.xnb</DestFile>
+  <DestTime>2025-05-23T18:04:44.0347388-04:00</DestTime>
   <Importer>FontDescriptionImporter</Importer>
   <ImporterTime>2024-08-16T13:05:56-04:00</ImporterTime>
   <Processor>FontDescriptionProcessor</Processor>

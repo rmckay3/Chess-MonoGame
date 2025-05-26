@@ -56,6 +56,9 @@
 /processorParam:TextureFormat=Color
 /build:Chess_Pieces_Sprite.png
 
+#begin chessAtlas.xml
+/copy:chessAtlas.xml
+
 #begin DialogBox.png
 /importer:TextureImporter
 /processor:TextureProcessor

@@ -10,7 +10,7 @@ namespace Sprites
 {
     public class Knight : PieceBase
     {
-        public Knight(ColorsEnum color, Texture2D chessPieces, Rectangle position) : base(color, PiecesEnum.Knight, chessPieces, position)
+        public Knight(ColorsEnum color, Rectangle position) : base(color, PiecesEnum.Knight, position)
         {
 
         }
